@@ -1,0 +1,191 @@
+<!-- informações gerais -->
+            <section class="screen screen-geral">
+                <header class="header">
+                    <div>
+                        <h2>Informações Gerais</h2>
+                        <p>Visão consolidada da operação da clínica</p>
+                    </div>
+
+                    <button class="outline-button">Atualizar dados</button>
+                </header>
+
+                <div class="stats stats-4">
+                    <div class="stat-card">
+                        <span class="stat-icon">▣</span>
+
+                        <div>
+                            <strong>18</strong>
+                            <p>Pacientes atendidos hoje</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-icon">▣</span>
+
+                        <div>
+                            <strong>96</strong>
+                            <p>Pacientes atendidos na semana</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-icon">▣</span>
+
+                        <div>
+                            <strong>402</strong>
+                            <p>Pacientes atendidos no mês</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-icon">▣</span>
+
+                        <div>
+                            <strong>3</strong>
+                            <p>Médicos disponíveis hoje</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-row charts-geral">
+                    <div class="table-card chart-card">
+                        <div class="table-header">
+                            <h2>Top médicos por consultas</h2>
+                            <span id="resumo-medicos"></span>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="grafico-medicos"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="table-card chart-card">
+                        <div class="table-header">
+                            <h2>Faixa etária dos pacientes</h2>
+                            <span id="resumo-idade"></span>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="grafico-idade"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fit-row">
+                <div class="content-card fit-card">
+                    <div class="table-header">
+                        <h2>Médicos disponíveis hoje</h2>
+                        <span>3 de 4 no quadro</span>
+                    </div>
+
+                    <div class="appointment-list list-scroll compact">
+                        <div class="appointment-card">
+                            <div class="patient">
+                                <div class="avatar">DC</div>
+
+                                <div>
+                                    <strong>Dra. Costa</strong>
+                                    <span>Cardiologia</span>
+                                </div>
+                            </div>
+
+                            <span class="status confirmed">Disponível</span>
+                        </div>
+
+                        <div class="appointment-card">
+                            <div class="patient">
+                                <div class="avatar">DL</div>
+
+                                <div>
+                                    <strong>Dr. Lima</strong>
+                                    <span>Clínico Geral</span>
+                                </div>
+                            </div>
+
+                            <span class="status confirmed">Disponível</span>
+                        </div>
+
+                        <div class="appointment-card">
+                            <div class="patient">
+                                <div class="avatar">CM</div>
+
+                                <div>
+                                    <strong>Dr. Carlos Mendes</strong>
+                                    <span>Cardiologia</span>
+                                </div>
+                            </div>
+
+                            <span class="status waiting">Em atendimento</span>
+                        </div>
+
+                        <div class="appointment-card">
+                            <div class="patient">
+                                <div class="avatar">FL</div>
+
+                                <div>
+                                    <strong>Dra. Fernanda Lima</strong>
+                                    <span>Clínico Geral</span>
+                                </div>
+                            </div>
+
+                            <span class="status blocked">Indisponível hoje</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-card fit-card">
+                    <div class="table-header">
+                        <h2>Atendimentos de hoje por médico</h2>
+                        <span>01/09/2026</span>
+                    </div>
+
+                    <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>PACIENTE</th>
+                                <th>MÉDICO</th>
+                                <th>HORÁRIO</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Maria Souza</td>
+                                <td>Dra. Costa</td>
+                                <td>09:00</td>
+                                <td><span class="status confirmed">Concluído</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>João Pereira</td>
+                                <td>Dr. Lima</td>
+                                <td>10:30</td>
+                                <td><span class="status waiting">Em andamento</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Ana Lima</td>
+                                <td>Dr. Carlos Mendes</td>
+                                <td>11:00</td>
+                                <td><span class="status cancelled">Cancelada</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Pedro Santos</td>
+                                <td>Dra. Fernanda Lima</td>
+                                <td>14:00</td>
+                                <td><span class="status confirmed">Concluído</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Beatriz Rocha</td>
+                                <td>Dra. Costa</td>
+                                <td>15:30</td>
+                                <td><span class="status waiting">Aguardando</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            </section>

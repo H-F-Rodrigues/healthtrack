@@ -1,0 +1,17 @@
+@media (max-width: 900px) {
+    .system { flex-direction: column; }
+    .sidebar {
+        width: 100%; min-height: auto; flex-direction: row; align-items: center;
+        overflow-x: auto; padding: 12px 16px;
+    }
+    .brand { margin-bottom: 0; margin-right: 12px; }
+    .menu { flex-direction: row; }
+    .sidebar-user {
+        margin-top: 0; margin-left: 12px; border-top: none; padding-top: 0;
+    }
+    .main-content { height: auto; padding: 24px 20px; }
+    .record-layout, .stats { grid-template-columns: 1fr; }
+    .stats.stats-4 { grid-template-columns: repeat(2, 1fr); }
+    .charts-recepcao, .charts-geral, .fit-row { grid-template-columns: 1fr; }
+    .table-fit, .fit-card { max-height: 420px; }
+}

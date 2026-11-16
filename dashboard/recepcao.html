@@ -1,0 +1,86 @@
+<!-- recepção -->
+            <section class="screen screen-recepcao">
+
+                <header class="header">
+                    <div>
+                        <h2>Recepção</h2>
+                        <p>Visão geral dos atendimentos de hoje</p>
+                    </div>
+
+                    <label for="agendamento" class="primary-button">+ Agendar consulta</label>
+                </header>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <span class="stat-icon">▣</span>
+
+                        <div>
+                            <strong id="consultas-hoje"></strong>
+
+                            <p>Consultas hoje</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-icon yellow">◷</span>
+
+                        <div>
+                            <strong id="consultas-aguardando"></strong>
+                            <p>Aguardando confirmação</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-icon red">×</span>
+                        <div>
+                            <strong id="consultas-canceladas"></strong>
+                        </div>
+                <div class="stat-label">Cancelamentos</div>
+            </div>
+        </div>
+
+        <div class="charts-row charts-recepcao">
+            <div class="table-card chart-card">
+                <div class="table-header">
+                    <h2>Consultas por dia</h2>
+                    <span id="resumo-linha">Últimos 30 dias</span>
+                </div>
+                <div class="chart-body">
+                    <canvas id="grafico-linha"></canvas>
+                </div>
+            </div>
+
+            <div class="table-card chart-card">
+                <div class="table-header">
+                    <h2>Consultas por especialidade</h2>
+                </div>
+                <div class="chart-body chart-rosca">
+                    <canvas id="grafico-rosca"></canvas>
+                    <div id="legenda-rosca" class="legenda"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card table-fit">
+            <div class="table-header">
+                <h2>Consultas de hoje</h2>
+                <span id="data-atual"></span>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PACIENTE</th>
+                            <th>HORÁRIO</th>
+                            <th>MÉDICO</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="consultas-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>

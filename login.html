@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthTrack | Sistema</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/logo-icon.png" type="image/png">
+</head>
+<body>
+    <input type="radio" name="dashboard" id="recepcao">
+    <input type="radio" name="dashboard" id="agendamento">
+    <input type="radio" name="dashboard" id="historico">
+    <input type="radio" name="dashboard" id="prontuario">
+    <input type="radio" name="dashboard" id="notificacoes">
+    <input type="radio" name="dashboard" id="alertas">
+    <input type="radio" name="dashboard" id="acesso">
+    <input type="radio" name="dashboard" id="geral">
+
+    <main class="login-page">
+        <section class="login-card">
+            <div class="logo">
+                <span class="logo-icon" aria-hidden="true"></span>
+                <span>HealthTrack</span>
+            </div>
+
+            <h1>Entrar no sistema</h1>
+            <p class="login-description">Acesse o painel de gestão da clínica.</p>
+
+            <select name="tipoLogin" id="tipo-login">
+                <option value="paciente">Paciente</option>
+                <option value="medico">Médico</option>
+                <option value="recepcionista">Recepcionista</option>
+            </select>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="seu@email.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha">
+            </div>
+
+            <p class="login-error" id="login-error" hidden></p>
+            <button type="button" class="login-button" id="btn-login">Entrar</button>
+            <a href="#" class="forgot-password">Esqueci minha senha</a>
+        </section>
+    </main>
+
+    <section class="system">
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-icon" aria-hidden="true"></span>
+                <span>HealthTrack</span>
+            </div>
+
+            <nav class="menu" aria-label="Navegação principal">
+                <label for="recepcao" class="menu-item"><span class="menu-icon">▣</span>Recepção</label>
+                <label for="agendamento" class="menu-item"><span class="menu-icon">+</span>Agendamento</label>
+                <label for="historico" class="menu-item"><span class="menu-icon">↻</span>Histórico</label>
+                <label for="prontuario" class="menu-item"><span class="menu-icon">□</span>Prontuário</label>
+                <label for="notificacoes" class="menu-item"><span class="menu-icon">!</span>Notificações</label>
+                <label for="alertas" class="menu-item"><span class="menu-icon">!</span>Alertas</label>
+                <label for="acesso" class="menu-item"><span class="menu-icon">●</span>Controle de acesso</label>
+                <label for="geral" class="menu-item"><span class="menu-icon">i</span>Informações Gerais</label>
+            </nav>
+
+            <div class="sidebar-user" id="sidebar-user">
+                <div class="user-photo">DR</div>
+                <div class="user-info">
+                    <strong>Dr. Ricardo Alves</strong>
+                    <span>Administrador</span>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-content" id="dashboard-screens" aria-live="polite">
+            <p>Carregando dashboards...</p>
+        </div>
+    </section>
+
+    <script type="module" src="js/login.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
