@@ -1,6 +1,8 @@
 import * as grafico from './grafico.js'
-import * as data from './dados.js'
-import * as date from './date.js'
+import * as data from '../dados.js'
+import * as date from '../date.js'
+import * as agendamento from './agendamento.js'
+import * as geral from './geral.js'
 
 const dashboardNames = [
     "recepcao",
@@ -34,6 +36,8 @@ async function loadDashboards() {
         await loadSidebar();
         await loadData();
         await loadTable();
+        await agendamento.load();
+        await geral.load();
 
         await grafico.gerar();
     } catch (error) {

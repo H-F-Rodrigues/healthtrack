@@ -1,4 +1,4 @@
-import * as data from './dados.js'
+import * as data from '../dados.js'
 
 const cores = [
   '#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F',

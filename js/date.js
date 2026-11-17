@@ -1,7 +1,13 @@
 import * as data from './dados.js'
 
-export function converterToNewDate(data) {
-    return new Date(data.replace(' ', 'T'));
+export function converterToNewDate(valor) {
+    if (valor instanceof Date) return valor
+    if (typeof valor !== 'string' || !valor.trim()) return new Date(NaN)
+
+    // "YYYY-MM-DD" puro: força horário LOCAL (evita o UTC da spec)
+    if (/^\d{4}-\d{2}-\d{2}$/.test(valor)) return new Date(valor + 'T00:00:00')
+
+    return new Date(valor.includes('T') ? valor : valor.replace(' ', 'T'))
 }
 
 export function compararData(data, referencia = new Date()) {
@@ -12,6 +18,33 @@ export function compararData(data, referencia = new Date()) {
         d.getMonth()    === referencia.getMonth() &&
         d.getDate()     === referencia.getDate()
     );
+}
+
+export function mesmaSemana(data, referencia = new Date()) {
+    const d = converterToNewDate(data)
+    const r = converterToNewDate(referencia)
+    if (isNaN(d.getTime()) || isNaN(r.getTime())) return false
+
+    const domingoD = new Date(d)
+    domingoD.setHours(0, 0, 0, 0)
+    domingoD.setDate(domingoD.getDate() - domingoD.getDay())
+
+    const domingoR = new Date(r)
+    domingoR.setHours(0, 0, 0, 0)
+    domingoR.setDate(domingoR.getDate() - domingoR.getDay())
+
+    return domingoD.getTime() === domingoR.getTime()
+}
+
+export function mesmoMes(data, referencia = new Date()) {
+    const d = converterToNewDate(data)
+    const r = converterToNewDate(referencia)
+    if (isNaN(d.getTime()) || isNaN(r.getTime())) return false
+
+    return (
+        d.getFullYear() === r.getFullYear() &&
+        d.getMonth()    === r.getMonth()
+    )
 }
 
 export async function filtrarConsultas(referencia = new Date()) {

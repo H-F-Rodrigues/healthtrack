@@ -8,7 +8,7 @@ export const consultas = [
         'cd_recepcionista': 1,
         'cd_diagnostico': 1,
         'cd_status': 2,
-        'dt_agendamento': '2026-10-20 08:00:00'
+        'dt_agendamento': '2026-11-16 08:00:00'
     },
     {
         'cd_consulta': 2,
