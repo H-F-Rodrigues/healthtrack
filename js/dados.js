@@ -1,6 +1,12 @@
 import * as mock from './mock.js'
 import * as date from './date.js'
 
+export const CHAVES = [
+  'consultas', 'pacientes', 'medicos', 'recepcionistas',
+  'status', 'especialidades', 'diagnosticos', 'enderecos',
+  'cidades', 'uf', 'alertas', 'medicamentos',
+]
+
 export async function carregarDados() {
     const consultas = await carregarConsultas()
     const recepcionistas = await carregarRecepcionistas()
@@ -330,13 +336,133 @@ async function carregarMedicamentos() {
 
 // Usar como criarDados(paciente, 'pacientes') ou criarDados(consulta, 'consultas')
 export async function criarDados(dado, tipoDado) {
-    const dados = JSON.parse(localStorage.getItem(tipoDado) || '[]') // tipoDado deve ser algo como 'pacientes'
-    dados.push(dado)    
-    try {
-        localStorage.setItem(tipoDado, JSON.stringify(dado))
-        return true
-    } catch (error) {
-        console.error(error);
-        return false
+  try {
+    if (!CHAVES.includes(tipoDado)) {
+      throw new Error(`Tipo de dado desconhecido: "${tipoDado}"`)
     }
+
+    const raw = localStorage.getItem(tipoDado)
+
+    let dados
+    if (!raw) {
+      // Primeira gravação: começa com os mocks para não "sumir" com o resto
+      dados = structuredClone(mock[tipoDado] ?? [])
+    } else {
+      dados = JSON.parse(raw)
+      if (!Array.isArray(dados)) {
+        throw new Error(`Conteúdo de "${tipoDado}" no localStorage não é um array.`)
+      }
+    }
+
+    dados.push(dado)
+    localStorage.setItem(tipoDado, JSON.stringify(dados))  // ← salva o ARRAY
+    return true
+  } catch (error) {
+    console.error('Erro em criarDados:', error)
+    return false
+  }
+}
+
+/**
+ * Exporta TODAS as chaves conhecidas do localStorage em um único arquivo JSON.
+ * Formato: { "pacientes": [...], "medicos": [...], ... }
+ */
+export function exportarDadosJSON() {
+  const backup = {}
+
+  for (const chave of CHAVES) {
+    const raw = localStorage.getItem(chave)
+    if (!raw) continue
+    try {
+      backup[chave] = JSON.parse(raw)
+    } catch {
+      backup[chave] = raw   // se não for JSON, mantém como string
+    }
+  }
+
+  if (Object.keys(backup).length === 0) {
+    alert('Não há dados para exportar.')
+    return
+  }
+
+  const blob = new Blob([JSON.stringify(backup, null, 2)], {
+    type: 'application/json',
+  })
+  const url = URL.createObjectURL(blob)
+
+  const linkTemp = document.createElement('a')
+  linkTemp.href = url
+  linkTemp.download = `healthtrack_backup_${new Date().toISOString().split('T')[0]}.json`
+
+  document.body.appendChild(linkTemp)
+  linkTemp.click()
+  document.body.removeChild(linkTemp)
+  URL.revokeObjectURL(url)
+}
+
+/**
+ * Importa um arquivo JSON no formato { "pacientes": [...], "medicos": [...], ... }
+ * e grava cada chave no localStorage. Funciona em conjunto com criarDados().
+ * @param {Event} evento
+ */
+export function importarDadosJSON(evento) {
+  const arquivo = evento.target.files[0]
+  if (!arquivo) return
+
+  const leitor = new FileReader()
+
+  leitor.onload = (e) => {
+    try {
+      const conteudo = JSON.parse(e.target.result)
+
+      // Precisa ser um objeto { chave: array }
+      if (
+        typeof conteudo !== 'object' ||
+        conteudo === null ||
+        Array.isArray(conteudo)
+      ) {
+        throw new Error('O arquivo deve conter um objeto no formato { "tabela": [...] }.')
+      }
+
+      // Filtra apenas chaves válidas do app
+      const chavesValidas = Object.keys(conteudo).filter(k => CHAVES.includes(k))
+
+      if (chavesValidas.length === 0) {
+        throw new Error(
+          `Nenhuma chave reconhecida. Chaves esperadas: ${CHAVES.join(', ')}.`
+        )
+      }
+
+      // Valida que cada valor é um array
+      for (const k of chavesValidas) {
+        if (!Array.isArray(conteudo[k])) {
+          throw new Error(`A chave "${k}" não contém um array.`)
+        }
+      }
+
+      if (!confirm(
+        `Isso substituirá os dados de: ${chavesValidas.join(', ')}.\nContinuar?`
+      )) return
+
+      // Grava cada chave — mesma estrutura que criarDados usa
+      for (const k of chavesValidas) {
+        localStorage.setItem(k, JSON.stringify(conteudo[k]))
+      }
+
+      alert('Dados importados com sucesso! Recarregando…')
+      location.reload()
+    } catch (erro) {
+      alert(`Erro ao importar o arquivo JSON: ${erro.message}`)
+      console.error(erro)
+    } finally {
+      evento.target.value = ''   // permite reimportar o mesmo arquivo
+    }
+  }
+
+  leitor.onerror = () => {
+    alert('Falha ao ler o arquivo.')
+    evento.target.value = ''
+  }
+
+  leitor.readAsText(arquivo)
 }
