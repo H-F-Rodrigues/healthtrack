@@ -184,6 +184,8 @@ async function carregarPacientes() {
     const dadosMockados = mock.pacientes
     const raw = localStorage.getItem("pacientes")
 
+    const enderecos = await carregarEnderecos()
+
     let dados
     if (!raw) {
         dados = dadosMockados
@@ -200,6 +202,10 @@ async function carregarPacientes() {
     const dataAtual = new Date()
     const MS_POR_ANO = 1000 * 60 * 60 * 24 * 365.25
 
+    dados.forEach(d => {
+        d.endereco = enderecos.find(en => en.cd_endereco == d.cd_endereco) || null
+    })
+
     return dados.map(d => {
         const dataNascimento = date.converterToNewDate(d.dt_nascimento)
         return {
@@ -214,7 +220,6 @@ async function carregarPacientes() {
 async function carregarEnderecos() {
     const dadosMockados = mock.enderecos
 
-    const pacientes = await carregarPacientes()
     const cidades = await carregarCidades()
     
     const raw = localStorage.getItem("enderecos")   
@@ -233,7 +238,6 @@ async function carregarEnderecos() {
     }
 
     dados.forEach(d => {
-        d.paciente = pacientes.find(e => e.cd_paciente == d.cd_paciente) || null
         d.cidade = cidades.find(c => c.cd_cidade == d.cd_cidade) || null
     })
 
