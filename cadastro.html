@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthTrack | Criar conta</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/logo-icon.png" type="image/png">
+</head>
+<body>
+    <main class="login-page">
+        <section class="login-card">
+            <div class="logo">
+                <span class="logo-icon" aria-hidden="true"></span>
+                <span>HealthTrack</span>
+            </div>
+
+            <h1>Criar conta de paciente</h1>
+            <p class="login-description">Com a conta você acompanha suas consultas e lembretes de medicamentos. Médicos e recepcionistas recebem o acesso pela clínica.</p>
+
+            <form id="form-cadastro" novalidate>
+                <div class="form-group">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" id="nome" autocomplete="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" inputmode="numeric" placeholder="000.000.000-00" maxlength="14" autocomplete="off" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nascimento">Data de nascimento</label>
+                    <input type="date" id="nascimento" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Celular</label>
+                    <input type="tel" id="telefone" inputmode="numeric" placeholder="(13) 99999-0000" maxlength="15" autocomplete="tel" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" autocomplete="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" autocomplete="new-password" minlength="6" placeholder="Mínimo de 6 caracteres" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha-confirmacao">Confirme a senha</label>
+                    <input type="password" id="senha-confirmacao" autocomplete="new-password" required>
+                </div>
+
+                <p class="login-error" id="erro-cadastro" hidden></p>
+                <button type="submit" class="login-button">Criar conta</button>
+            </form>
+
+            <p class="login-links">
+                Já tem conta? <a href="login.html">Entrar</a>
+                <span aria-hidden="true">·</span>
+                <a href="index.html">Página inicial</a>
+            </p>
+        </section>
+    </main>
+    <script type="module" src="js/cadastro.js"></script>
+</body>
+</html>

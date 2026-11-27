@@ -1,0 +1,104 @@
+<!-- painel do paciente -->
+<section class="screen screen-paciente">
+    <header class="header">
+        <div>
+            <h2 id="paciente-saudacao">Meu painel</h2>
+            <p>Suas consultas e lembretes de medicamentos</p>
+        </div>
+    </header>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div>
+                <strong id="paciente-proxima-data">-</strong>
+                <p id="paciente-proxima-detalhe">Próxima consulta</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div>
+                <strong id="paciente-total-lembretes">0</strong>
+                <p>Medicamentos em uso</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div>
+                <strong id="paciente-total-realizadas">0</strong>
+                <p>Consultas realizadas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-header">
+            <h2>Consultas marcadas</h2>
+            <span id="paciente-consultas-resumo"></span>
+        </div>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>DATA</th>
+                        <th>HORÁRIO</th>
+                        <th>MÉDICO</th>
+                        <th>ESPECIALIDADE</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+
+                <tbody id="paciente-consultas"></tbody>
+            </table>
+        </div>
+
+        <div class="business-rule">
+            <strong>Precisa marcar, remarcar ou cancelar?</strong>
+            <span>Os agendamentos são feitos pela recepção da clínica: (13) 3333-0000 ou presencialmente. Cancelamentos devem ser avisados com pelo menos 24h de antecedência.</span>
+        </div>
+    </div>
+
+    <div class="table-card card-espacado">
+        <div class="table-header">
+            <h2>Lembretes de medicamentos</h2>
+            <span id="paciente-lembretes-resumo"></span>
+        </div>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>MEDICAMENTO</th>
+                        <th>DOSAGEM</th>
+                        <th>HORÁRIO</th>
+                        <th>PERÍODO</th>
+                        <th>SITUAÇÃO</th>
+                    </tr>
+                </thead>
+
+                <tbody id="paciente-lembretes"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="table-card card-espacado">
+        <div class="table-header">
+            <h2>Histórico de consultas</h2>
+            <span id="paciente-historico-resumo"></span>
+        </div>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>DATA</th>
+                        <th>MÉDICO</th>
+                        <th>ESPECIALIDADE</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="paciente-historico"></tbody>
+            </table>
+        </div>
+    </div>
+</section>

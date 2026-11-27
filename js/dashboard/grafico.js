@@ -53,7 +53,10 @@ function registrar(id, desenhar) {
         desenhar(ctx, w, h);
     };
 
-    new ResizeObserver(render).observe(canvas);
+    // Ao recarregar os dados, troca o observador antigo (que desenharia dados velhos)
+    canvas._observador?.disconnect();
+    canvas._observador = new ResizeObserver(render);
+    canvas._observador.observe(canvas);
     render();
     return { canvas, render };
 }
@@ -227,7 +230,7 @@ function graficoConsultasPorDia(consultas) {
     const { canvas, render } = grafico;
     const tip = tooltip();
 
-    canvas.addEventListener('mousemove', e => {
+    canvas.onmousemove = e => {
         const rect = canvas.getBoundingClientRect();
         const larg = rect.width - margem.esq - margem.dir;
         const rel = (e.clientX - rect.left - margem.esq) / larg;
@@ -242,13 +245,13 @@ function graficoConsultasPorDia(consultas) {
         tip.style.display = 'block';
         tip.style.left = `${e.clientX + 12}px`;
         tip.style.top = `${e.clientY - 34}px`;
-    });
+    };
 
-    canvas.addEventListener('mouseleave', () => {
+    canvas.onmouseleave = () => {
         hover = null;
         tip.style.display = 'none';
         render();
-    });
+    };
 }
 
 /* ------------------------------------------------------------------ */

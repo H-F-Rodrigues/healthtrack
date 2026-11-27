@@ -1,31 +1,58 @@
 <!-- agendamento -->
 <section class="screen screen-agendamento">
-                <header class="header">
-                    <div>
-                        <h2>Agendamento de Consultas</h2>
-                        <p>Gerencie suas consultas e horários</p>
-                    </div>
+    <header class="header">
+        <div>
+            <h2 id="agendamento-titulo">Agendamento de Consultas</h2>
+            <p id="agendamento-subtitulo">Marque, confirme, remarque e cancele consultas</p>
+        </div>
 
-                    <label for="agendamento" class="primary-button">
-                        + Nova consulta
-                    </label>
-                </header>
+        <button id="btn-abrir-form-agendamento" class="primary-button" type="button" data-perfis="recepcionista">
+            + Nova consulta
+        </button>
+    </header>
 
-                <div class="date-bar">
-                    <button>‹</button>
+    <form id="form-nova-consulta" class="content-card form-card" hidden data-perfis="recepcionista">
+        <div class="table-header">
+            <h2 id="form-agendamento-titulo">Nova consulta</h2>
+        </div>
 
-                    <strong>
-                        <p id="dia-atual"></p>
-                    </strong>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="agendamento-paciente">Paciente</label>
+                <select id="agendamento-paciente" required></select>
+            </div>
+            <div class="form-group">
+                <label for="agendamento-medico">Médico</label>
+                <select id="agendamento-medico" required></select>
+            </div>
+            <div class="form-group">
+                <label for="agendamento-data">Data</label>
+                <input id="agendamento-data" type="date" required>
+            </div>
+            <div class="form-group">
+                <label for="agendamento-horario">Horário disponível</label>
+                <select id="agendamento-horario" required></select>
+            </div>
+        </div>
 
-                    <button>›</button>
-                </div>
+        <p class="login-error" id="erro-agendamento" hidden></p>
+        <div class="form-actions">
+            <button class="outline-button" id="btn-cancelar-form-agendamento" type="button">Voltar</button>
+            <button class="primary-button" id="btn-salvar-agendamento" type="submit">Salvar consulta</button>
+        </div>
+    </form>
 
-                <div class="appointment-list"></div>
+    <div class="date-bar">
+        <button type="button" data-dia="-1" aria-label="Dia anterior">‹</button>
+        <strong><span id="dia-atual"></span></strong>
+        <button type="button" data-dia="1" aria-label="Próximo dia">›</button>
+        <button type="button" class="date-bar-hoje" data-dia="hoje">Hoje</button>
+    </div>
 
-                <div class="business-rule">
-                    <strong>Regra de negócio</strong>
+    <div class="appointment-list"></div>
 
-                    <span>Cancelamento bloqueado a menos de 24h da consulta.</span>
-                </div>
-            </section>
+    <div class="business-rule">
+        <strong>Regra de negócio</strong>
+        <span>Remarcação e cancelamento só são permitidos com pelo menos 24h de antecedência da consulta. Cada consulta dura 30 minutos.</span>
+    </div>
+</section>

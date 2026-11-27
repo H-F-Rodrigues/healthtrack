@@ -7,7 +7,20 @@ import * as date from '../date.js'
 const DURACAO_CONSULTA_MINUTOS = 30
 
 export async function load(referencia = new Date()) {
+    configurarBackup()
     await loadInfo(referencia)
+}
+
+function configurarBackup() {
+    const exportar = document.getElementById('btn-exportar-backup')
+    const importar = document.getElementById('btn-importar-backup')
+    const arquivo = document.getElementById('arquivo-backup')
+    if (!exportar || !importar || !arquivo || exportar.dataset.configurado) return
+
+    exportar.addEventListener('click', data.exportarDadosJSON)
+    importar.addEventListener('click', () => arquivo.click())
+    arquivo.addEventListener('change', evento => data.importarDadosJSON(evento))
+    exportar.dataset.configurado = 'true'
 }
 
 async function loadInfo(referencia) {
@@ -38,7 +51,8 @@ function loadPacientes(consultas, referencia) {
     consultas.forEach(c => {
         if (!c.dt_agendamento || !c.cd_paciente) return
 
-        if (c.cd_status === 2) {
+        const dataConsulta = date.converterToNewDate(c.dt_agendamento)
+        if (c.cd_status === 2 && !isNaN(dataConsulta) && dataConsulta <= referencia) {
             if (date.compararData(c.dt_agendamento, referencia)) {
                 pacientesHoje.add(c.cd_paciente)
             }

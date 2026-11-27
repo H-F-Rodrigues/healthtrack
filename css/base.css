@@ -42,4 +42,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 body > input[type="radio"] { display: none; }
+/* O atributo hidden sempre vence o display das classes (botões, cards, itens de menu) */
+[hidden] { display: none !important; }
 h1, h2, h3 { color: var(--text); font-weight: 700; line-height: 1.3; }

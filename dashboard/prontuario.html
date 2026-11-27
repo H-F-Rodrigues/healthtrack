@@ -1,57 +1,175 @@
+<!-- pacientes e prontuário (médico) -->
 <section class="screen screen-prontuario">
-                <header class="header">
 
-                    <div>
-                        <h2>Prontuário Eletrônico</h2>
-                        <p>Informações clínicas do paciente</p>
-                    </div>
+    <!-- 1. Busca de pacientes -->
+    <div id="prontuario-busca">
+        <header class="header">
+            <div>
+                <h2 class="titulo-destaque">Pacientes</h2>
+                <p>Encontre o paciente para abrir o prontuário eletrônico</p>
+            </div>
+        </header>
 
-                    <span class="responsible">Médica responsável</span>
-                </header>
+        <div class="content-card">
+            <form id="form-busca-paciente" class="busca-paciente" autocomplete="off">
+                <label class="campo-busca" for="busca-paciente-termo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+                    <span class="campo-flutuante-rotulo">Procure por CPF ou nome</span>
+                    <input id="busca-paciente-termo" type="search" placeholder="Procure por CPF ou nome">
+                </label>
 
-                <div class="record-layout">
-                    <div class="patient-profile">
-                        <div class="profile-avatar">MS</div>
-                        <h3>Maria Souza</h3>
-                        <span>42 anos</span>
+                <div class="busca-linha">
+                    <label class="campo-flutuante" for="busca-paciente-situacao">
+                        <span class="campo-flutuante-rotulo">Situação</span>
+                        <select id="busca-paciente-situacao">
+                            <option value="todos">Todos</option>
+                            <option value="agendada">Com consulta agendada</option>
+                            <option value="tratamento">Em tratamento (medicamento em uso)</option>
+                            <option value="sem-consulta">Sem consultas</option>
+                        </select>
+                    </label>
 
-                        <hr>
-                        <div class="profile-data">
-                            <small>CPF</small>
-                            <strong>***.***.***-**</strong>
-                        </div>
+                    <button class="primary-button botao-busca" type="submit">Pesquisar</button>
+                    <button class="botao-limpar" type="button" id="btn-limpar-busca" disabled>Limpar</button>
+                </div>
+            </form>
 
-                        <div class="profile-data">
-                            <small>Tipo sanguíneo</small>
-                            <strong>O+</strong>
-                        </div>
+            <div id="busca-paciente-vazio" class="estado-vazio">
+                <svg viewBox="0 0 120 110" aria-hidden="true">
+                    <ellipse cx="60" cy="58" rx="54" ry="48" class="ev-fundo"/>
+                    <path d="M38 22h34l14 14v50a4 4 0 0 1-4 4H38a4 4 0 0 1-4-4V26a4 4 0 0 1 4-4z" class="ev-folha"/>
+                    <path d="M72 22v14h14" class="ev-dobra"/>
+                    <text x="46" y="62" class="ev-interrogacao">?</text>
+                    <circle cx="78" cy="78" r="16" class="ev-lupa"/>
+                    <path d="m72 72 12 12m0-12-12 12" class="ev-x"/>
+                </svg>
+                <strong id="busca-paciente-vazio-titulo">Pesquise um paciente</strong>
+                <span id="busca-paciente-vazio-texto">Digite o nome ou o CPF e clique em Pesquisar. Para ver todos, pesquise com o campo vazio.</span>
+            </div>
 
-                        <div class="profile-data">
-                            <small>Última consulta</small>
-                            <strong>12/08/2026</strong>
-                        </div>
-                    </div>
+            <div id="busca-paciente-resultado" hidden>
+                <p class="resultado-resumo" id="busca-paciente-resumo"></p>
+                <div class="table-scroll">
+                    <table class="tabela-pacientes">
+                        <thead>
+                            <tr>
+                                <th><button type="button" class="ordenar" data-coluna="nome">Nome <span aria-hidden="true">⇅</span></button></th>
+                                <th><button type="button" class="ordenar" data-coluna="cpf">Documento <span aria-hidden="true">⇅</span></button></th>
+                                <th><button type="button" class="ordenar" data-coluna="nascimento">Data de nascimento <span aria-hidden="true">⇅</span></button></th>
+                                <th><button type="button" class="ordenar" data-coluna="telefone">Contato <span aria-hidden="true">⇅</span></button></th>
+                                <th class="coluna-acoes">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="busca-paciente-corpo"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div class="record-card">
+    <!-- 2. Prontuário do paciente escolhido -->
+    <div id="prontuario-detalhe" hidden>
+        <header class="header">
+            <div>
+                <button type="button" class="link-voltar" id="btn-voltar-pacientes">‹ Voltar para pacientes</button>
+                <h2>Prontuário eletrônico</h2>
+                <p>Informações clínicas do paciente</p>
+            </div>
+            <span class="responsible" id="prontuario-responsavel"></span>
+        </header>
+
+        <div class="record-layout">
+            <aside class="patient-profile" id="prontuario-perfil"></aside>
+
+            <div class="record-coluna">
+                <div class="record-card">
+                    <div class="table-header">
                         <h3>Informações clínicas</h3>
+                        <button type="button" class="outline-button" id="btn-editar-clinico">Editar</button>
+                    </div>
 
+                    <dl class="dados-clinicos" id="prontuario-clinico-leitura"></dl>
+
+                    <form id="form-prontuario-clinico" hidden>
                         <div class="form-group">
-                            <label>Diagnóstico atual</label>
-
-                            <input type="text" value="Hipertensão controlada">
+                            <label for="prontuario-diagnostico">Diagnóstico principal</label>
+                            <select id="prontuario-diagnostico"></select>
                         </div>
-
                         <div class="form-group">
-                            <label>Observações clínicas</label>
-                            <textarea>Paciente segue acompanhamento trimestral. Pressão arterial estável.</textarea>
+                            <label for="prontuario-alergias">Alergias</label>
+                            <input id="prontuario-alergias" type="text" placeholder="Ex.: Dipirona, penicilina. Deixe vazio se não houver.">
                         </div>
-
                         <div class="form-group">
-                            <label>Histórico</label>
-                            <textarea>Paciente em acompanhamento cardiológico.</textarea>
+                            <label for="prontuario-observacoes">Observações clínicas</label>
+                            <textarea id="prontuario-observacoes" placeholder="Condições crônicas, acompanhamentos, cuidados..."></textarea>
                         </div>
+                        <div class="form-actions">
+                            <button type="button" class="outline-button" id="btn-cancelar-clinico">Cancelar</button>
+                            <button type="submit" class="primary-button">Salvar alterações</button>
+                        </div>
+                    </form>
+                </div>
 
-                        <button class="primary-button">Salvar alterações</button>
+                <div class="record-card">
+                    <div class="table-header">
+                        <h3>Evolução clínica</h3>
+                        <span id="prontuario-evolucoes-resumo"></span>
+                    </div>
+
+                    <form id="form-evolucao" class="form-evolucao">
+                        <div class="form-group">
+                            <label for="prontuario-evolucao-texto">Registrar atendimento</label>
+                            <textarea id="prontuario-evolucao-texto" placeholder="Queixa, exame físico, conduta e orientações..." required></textarea>
+                        </div>
+                        <p class="login-error" id="erro-evolucao" hidden></p>
+                        <div class="form-actions">
+                            <button type="submit" class="primary-button">Adicionar ao prontuário</button>
+                        </div>
+                    </form>
+
+                    <ol class="linha-tempo" id="prontuario-evolucoes"></ol>
+                </div>
+
+                <div class="record-card">
+                    <div class="table-header">
+                        <h3>Medicamentos</h3>
+                        <button type="button" class="outline-button" id="btn-prescrever-prontuario">+ Prescrever</button>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>MEDICAMENTO</th>
+                                    <th>DOSAGEM</th>
+                                    <th>PERÍODO</th>
+                                    <th>SITUAÇÃO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prontuario-medicamentos"></tbody>
+                        </table>
                     </div>
                 </div>
-            </section>
+
+                <div class="record-card">
+                    <div class="table-header">
+                        <h3>Consultas</h3>
+                        <span id="prontuario-consultas-resumo"></span>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>DATA</th>
+                                    <th>MÉDICO</th>
+                                    <th>DIAGNÓSTICO</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prontuario-consultas"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

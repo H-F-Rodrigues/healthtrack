@@ -1,16 +1,19 @@
 import * as data from './dados.js'
+import { iniciarSistema } from './dashboard/dashboard.js'
 
 const loginInput = document.getElementById("tipo-login");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const loginButton = document.getElementById("btn-login");
+const logoutButton = document.getElementById("btn-logout");
+const esqueciSenha = document.getElementById("esqueci-senha");
 const loginError = document.getElementById("login-error");
 
-const tipoUsuario = sessionStorage.getItem('tipoUsuario')
-
-if (tipoUsuario) {
-    redirecionar(tipoUsuario)
-}
+const TABELAS = {
+    paciente: 'pacientes',
+    medico: 'medicos',
+    recepcionista: 'recepcionistas'
+};
 
 function showError(message) {
     loginError.textContent = message;
@@ -19,14 +22,8 @@ function showError(message) {
 
 async function validateLogin() {
     const tipoLogin = loginInput.value;
-    const email = emailInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
     const senha = passwordInput.value;
-    let usuario = false;
-
-    const dados = await data.carregarDados();
-    const pacientes = dados['pacientes'];
-    const medicos = dados['medicos'];
-    const recepcionistas = dados['recepcionistas'];
 
     if (!email || !senha) {
         return showError("Preencha e-mail e senha.");
@@ -34,62 +31,51 @@ async function validateLogin() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return showError("Digite um e-mail válido.");
     }
-    if (senha.length < 6) {
-        return showError("A senha deve ter pelo menos 6 caracteres.");
+
+    const tabela = TABELAS[tipoLogin];
+    if (!tabela) {
+        return showError("Selecione como deseja entrar.");
     }
 
-    switch (tipoLogin) {
-        case 'paciente':
-            usuario = pacientes.find(p => p.ds_email === email)
-            break;
+    const dados = await data.carregarDados();
+    const usuario = (dados[tabela] || []).find(u => String(u.ds_email).toLowerCase() === email);
 
-        case 'medico': 
-            usuario = medicos.find(m => m.ds_email === email)
-            break;
-
-        case 'recepcionista':
-            usuario = recepcionistas.find(r => r.ds_email === email)
-            break;
-
-        default:
-            throw new Error('Tipo de login inválido: ' + 403);
-    }
-
-    if (!usuario) {
-        return showError("Email inválido");
+    // Mesma mensagem para e-mail ou senha errados: não revela quais e-mails existem
+    if (!usuario || usuario.ds_senha !== senha) {
+        return showError("E-mail ou senha incorretos.");
     }
 
     loginError.hidden = true;
 
-    if (usuario.ds_senha !== senha) {
-        return showError("Senha inválida");
-    }
-
     sessionStorage.setItem(tipoLogin, JSON.stringify(usuario));
     sessionStorage.setItem("tipoUsuario", tipoLogin);
 
-    redirecionar(tipoLogin)
+    passwordInput.value = '';
+    iniciarSistema();
 }
 
-function redirecionar(tipoLogin) {
-    switch (tipoLogin) {
-        case 'paciente':
-            document.getElementById("paciente").checked = true;
-            break;
+function logout() {
+    ['paciente', 'medico', 'recepcionista', 'tipoUsuario'].forEach((chave) => {
+        sessionStorage.removeItem(chave);
+    });
 
-        case 'medico': 
-            document.getElementById("medico").checked = true;
-            break;
-
-        case 'recepcionista':
-            document.getElementById("recepcao").checked = true;
-            break;
-    }
+    // Recarrega a página para não sobrar nenhum dado do usuário anterior na tela
+    window.location.reload();
 }
 
 loginButton.addEventListener("click", validateLogin);
+logoutButton.addEventListener("click", logout);
+esqueciSenha.addEventListener("click", (e) => {
+    e.preventDefault();
+    showError("Para redefinir sua senha, procure a recepção da clínica ou ligue para (13) 3333-0000.");
+});
 [emailInput, passwordInput].forEach((input) =>
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") validateLogin();
     })
 );
+
+// Já existe uma sessão aberta nesta aba: entra direto
+if (sessionStorage.getItem('tipoUsuario')) {
+    iniciarSistema();
+}

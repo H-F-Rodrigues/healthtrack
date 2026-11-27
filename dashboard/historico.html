@@ -1,72 +1,36 @@
 <!-- histórico -->
-            <section class="screen screen-historico">
-                <header class="header">
+<section class="screen screen-historico">
+    <header class="header">
+        <div>
+            <h2>Histórico de Consultas</h2>
+            <p id="historico-subtitulo">Atendimentos anteriores da clínica</p>
+        </div>
 
-                    <div>
-                        <h2>Histórico de Consultas</h2>
+        <div class="search">
+            <input id="busca-historico" type="search" placeholder="Buscar paciente, médico ou data..." aria-label="Buscar no histórico de consultas">
+        </div>
+    </header>
 
-                        <p>Consulte os atendimentos anteriores</p>
-                    </div>
+    <div class="table-card">
+        <div class="table-header">
+            <h2>Consultas anteriores</h2>
+            <span id="historico-resumo"></span>
+        </div>
 
-                    <div class="search">
-                        <input type="text" placeholder="Buscar consulta...">
-                    </div>
-                </header>
-
-                <div class="content-card">
-
-                    <div class="patient-heading">
-                        <div class="avatar large">MS</div>
-
-                        <div>
-                            <strong>Maria Souza</strong>
-
-                            <span>Histórico de atendimentos</span>
-                        </div>
-                    </div>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>DATA</th>
-                                <th>MÉDICO</th>
-                                <th>ESPECIALIDADE</th>
-                                <th>TIPO</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>12/08/2026</td>
-                                <td>Dra. Costa</td>
-                                <td>Cardiologia</td>
-                                <td>Consulta</td>
-                                <td>
-                                    <span class="status confirmed">Concluída</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>20/05/2026</td>
-                                <td>Dra. Costa</td>
-                                <td>Cardiologia</td>
-                                <td>Retorno</td>
-                                <td>
-                                    <span class="status confirmed">Concluída</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>02/02/2026</td>
-                                <td>Dr. Lima</td>
-                                <td>Clínico Geral</td>
-                                <td>Consulta</td>
-                                <td>
-                                    <span class="status confirmed">Concluída</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>DATA</th>
+                        <th>PACIENTE</th>
+                        <th>MÉDICO</th>
+                        <th>ESPECIALIDADE</th>
+                        <th>DIAGNÓSTICO</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="historico-consultas"></tbody>
+            </table>
+        </div>
+    </div>
+</section>

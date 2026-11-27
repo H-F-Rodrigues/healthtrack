@@ -1,142 +1,79 @@
 // DADOS MOCKADOS PARA dados.js
+//
+// As datas são relativas ao dia de hoje (dataDemonstracao), para que a
+// agenda, os gráficos e os lembretes sempre tenham dados ao abrir o sistema.
 
-export const consultas = [
-    {
-        'cd_consulta': 1,
-        'cd_paciente': 1,
-        'cd_medico': 1,
-        'cd_recepcionista': 1,
-        'cd_diagnostico': 1,
-        'cd_status': 2,
-        'dt_agendamento': '2026-11-16 08:00:00'
-    },
-    {
-        'cd_consulta': 2,
-        'cd_paciente': 2,
-        'cd_medico': 2,
-        'cd_recepcionista': 2,
-        'cd_diagnostico': 2,
-        'cd_status': 1,
-        'dt_agendamento': '2026-11-17 09:00:00'
-    },
-    {
-        'cd_consulta': 3,
-        'cd_paciente': 3,
-        'cd_medico': 3,
-        'cd_recepcionista': 3,
-        'cd_diagnostico': 3,
-        'cd_status': 2,
-        'dt_agendamento': '2026-10-22 10:00:00'
-    },
-    {
-        'cd_consulta': 4,
-        'cd_paciente': 4,
-        'cd_medico': 4,
-        'cd_recepcionista': 4,
-        'cd_diagnostico': 4,
-        'cd_status': 1,
-        'dt_agendamento': '2026-10-23 08:30:00'
-    },
-    {
-        'cd_consulta': 5,
-        'cd_paciente': 5,
-        'cd_medico': 5,
-        'cd_recepcionista': 5,
-        'cd_diagnostico': 5,
-        'cd_status': 2,
-        'dt_agendamento': '2026-10-28 08:00:00'
-    },
-    {
-        'cd_consulta': 6,
-        'cd_paciente': 6,
-        'cd_medico': 6,
-        'cd_recepcionista': 6,
-        'cd_diagnostico': 6,
-        'cd_status': 3,
-        'dt_agendamento': '2026-10-28 09:00:00'
-    },
-    {
-        'cd_consulta': 7,
-        'cd_paciente': 7,
-        'cd_medico': 7,
-        'cd_recepcionista': 7,
-        'cd_diagnostico': 7,
-        'cd_status': 1,
-        'dt_agendamento': '2026-10-28 10:00:00'
-    },
-    {
-        'cd_consulta': 8,
-        'cd_paciente': 8,
-        'cd_medico': 8,
-        'cd_recepcionista': 8,
-        'cd_diagnostico': 8,
-        'cd_status': 2,
-        'dt_agendamento': '2026-10-28 14:00:00'
-    },
-    {
-        'cd_consulta': 9,
-        'cd_paciente': 9,
-        'cd_medico': 9,
-        'cd_recepcionista': 9,
-        'cd_diagnostico': 9,
-        'cd_status': 1,
-        'dt_agendamento': '2026-10-29 08:00:00'
-    },
-    {
-        'cd_consulta': 10,
-        'cd_paciente': 10,
-        'cd_medico': 10,
-        'cd_recepcionista': 10,
-        'cd_diagnostico': 10,
-        'cd_status': 2,
-        'dt_agendamento': '2026-10-30 09:00:00'
-    },
-    {
-        'cd_consulta': 11,
-        'cd_paciente': 11,
-        'cd_medico': 11,
-        'cd_recepcionista': 11,
-        'cd_diagnostico': 11,
-        'cd_status': 1,
-        'dt_agendamento': '2026-10-31 10:00:00'
-    },
-    {
-        'cd_consulta': 12,
-        'cd_paciente': 12,
-        'cd_medico': 12,
-        'cd_recepcionista': 12,
-        'cd_diagnostico': 12,
-        'cd_status': 2,
-        'dt_agendamento': '2026-11-01 08:30:00'
-    },
-    {
-        'cd_consulta': 13,
-        'cd_paciente': 13,
-        'cd_medico': 13,
-        'cd_recepcionista': 13,
-        'cd_diagnostico': 13,
-        'cd_status': 3,
-        'dt_agendamento': '2026-11-02 09:30:00'
-    },
-    {
-        'cd_consulta': 14,
-        'cd_paciente': 14,
-        'cd_medico': 14,
-        'cd_recepcionista': 14,
-        'cd_diagnostico': 14,
-        'cd_status': 1,
-        'dt_agendamento': '2026-11-03 10:30:00'
-    },
-    {
-        'cd_consulta': 15,
-        'cd_paciente': 15,
-        'cd_medico': 15,
-        'cd_recepcionista': 15,
-        'cd_diagnostico': null,
-        'cd_status': 2,
-        'dt_agendamento': '2026-11-04 08:00:00'
-    },
+function dataDemonstracao(dias, horario) {
+    const data = new Date()
+    data.setHours(0, 0, 0, 0)
+    data.setDate(data.getDate() + dias)
+    const dataLocal = [
+        data.getFullYear(),
+        String(data.getMonth() + 1).padStart(2, '0'),
+        String(data.getDate()).padStart(2, '0')
+    ].join('-')
+
+    return horario ? `${dataLocal} ${horario}:00` : dataLocal
+}
+
+// [dias a partir de hoje, horário, paciente, médico, status, diagnóstico]
+// status: 1 = Aguardando, 2 = Confirmada, 3 = Cancelada
+const agendaDemonstracao = [
+    [-28, '08:00', 1, 1, 2, 1],
+    [-27, '09:00', 2, 2, 2, 8],
+    [-26, '10:00', 3, 3, 2, 15],
+    [-25, '08:30', 4, 4, 3, null],
+    [-24, '14:00', 5, 5, 2, 10],
+    [-22, '09:30', 6, 6, 2, 15],
+    [-21, '11:00', 7, 7, 2, 15],
+    [-20, '15:00', 8, 8, 2, 11],
+    [-19, '08:00', 9, 9, 2, 9],
+    [-18, '10:30', 10, 10, 2, 5],
+    [-17, '13:30', 11, 11, 3, null],
+    [-15, '09:00', 12, 12, 2, 7],
+    [-14, '10:00', 13, 13, 2, 14],
+    [-13, '16:00', 14, 14, 2, 3],
+    [-12, '08:30', 15, 15, 2, 15],
+    [-11, '09:00', 2, 1, 2, 1],
+    [-10, '14:30', 4, 15, 2, 15],
+    [-8, '10:00', 6, 2, 2, 8],
+    [-7, '11:30', 3, 15, 2, 13],
+    [-6, '08:00', 8, 1, 2, 1],
+    [-5, '09:30', 10, 10, 3, null],
+    [-4, '15:30', 1, 15, 2, 12],
+    [-3, '10:00', 5, 5, 2, 10],
+    [-2, '13:00', 7, 9, 2, 9],
+    [-1, '09:00', 9, 1, 2, 1],
+    [-1, '11:00', 11, 4, 2, 3],
+    [0, '08:00', 12, 1, 2, null],
+    [0, '09:00', 1, 1, 2, null],
+    [0, '10:00', 3, 2, 1, null],
+    [0, '11:00', 13, 15, 3, null],
+    [0, '14:00', 5, 1, 1, null],
+    [0, '15:30', 14, 6, 2, null],
+    [0, '16:30', 7, 15, 1, null],
+    [1, '08:30', 2, 1, 1, null],
+    [1, '10:00', 6, 2, 2, null],
+    [2, '09:00', 8, 3, 1, null],
+    [2, '14:00', 15, 1, 2, null],
+    [3, '10:30', 1, 2, 1, null],
+    [4, '08:00', 10, 10, 2, null],
+    [5, '11:00', 4, 4, 1, null],
+    [7, '09:30', 11, 1, 1, null],
+    [8, '15:00', 1, 1, 2, null],
+    [10, '10:00', 9, 9, 1, null],
+    [12, '14:30', 12, 12, 1, null]
 ]
+
+export const consultas = agendaDemonstracao.map(([dias, horario, paciente, medico, status, diagnostico], indice) => ({
+    'cd_consulta': indice + 1,
+    'cd_paciente': paciente,
+    'cd_medico': medico,
+    'cd_recepcionista': (indice % 3) + 1,
+    'cd_diagnostico': diagnostico,
+    'cd_status': status,
+    'dt_agendamento': dataDemonstracao(dias, horario)
+}))
 
 export const status = [
     {
@@ -924,158 +861,37 @@ export const uf = [
     { 'sg_uf': 'TO', 'nm_uf': 'Tocantins' },
 ]
 
-export const alertas = [
-    {
-        'cd_alerta': 1,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '08:00',
-        'dt_inicio': '2026-11-01',
-        'dt_fim': '2026-11-07',
-        'cd_paciente': 1,
-        'cd_medico': 1,
-        'cd_medicamento': 1
-    },
-    {
-        'cd_alerta': 2,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '12:00',
-        'dt_inicio': '2026-11-01',
-        'dt_fim': '2026-11-05',
-        'cd_paciente': 2,
-        'cd_medico': 2,
-        'cd_medicamento': 2
-    },
-    {
-        'cd_alerta': 3,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '08:00 e 20:00',
-        'dt_inicio': '2026-11-02',
-        'dt_fim': '2026-11-09',
-        'cd_paciente': 3,
-        'cd_medico': 3,
-        'cd_medicamento': 3
-    },
-    {
-        'cd_alerta': 4,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '09:00',
-        'dt_inicio': '2026-11-02',
-        'dt_fim': '2026-11-12',
-        'cd_paciente': 4,
-        'cd_medico': 4,
-        'cd_medicamento': 4
-    },
-    {
-        'cd_alerta': 5,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '08:00',
-        'dt_inicio': '2026-11-03',
-        'dt_fim': '2026-11-10',
-        'cd_paciente': 5,
-        'cd_medico': 5,
-        'cd_medicamento': 5
-    },
-    {
-        'cd_alerta': 6,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '07:00',
-        'dt_inicio': '2026-11-03',
-        'dt_fim': '2026-11-17',
-        'cd_paciente': 6,
-        'cd_medico': 6,
-        'cd_medicamento': 6
-    },
-    {
-        'cd_alerta': 7,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '08:00 e 20:00',
-        'dt_inicio': '2026-11-04',
-        'dt_fim': '2026-11-18',
-        'cd_paciente': 7,
-        'cd_medico': 7,
-        'cd_medicamento': 7
-    },
-    {
-        'cd_alerta': 8,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '09:00',
-        'dt_inicio': '2026-11-04',
-        'dt_fim': '2026-11-14',
-        'cd_paciente': 8,
-        'cd_medico': 8,
-        'cd_medicamento': 8
-    },
-    {
-        'cd_alerta': 9,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '08:00',
-        'dt_inicio': '2026-11-05',
-        'dt_fim': '2026-11-19',
-        'cd_paciente': 9,
-        'cd_medico': 9,
-        'cd_medicamento': 9
-    },
-    {
-        'cd_alerta': 10,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '07:00',
-        'dt_inicio': '2026-11-05',
-        'dt_fim': '2026-11-20',
-        'cd_paciente': 10,
-        'cd_medico': 10,
-        'cd_medicamento': 10
-    },
-    {
-        'cd_alerta': 11,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': 'Se necessário, conforme prescrição',
-        'dt_inicio': '2026-11-06',
-        'dt_fim': '2026-11-13',
-        'cd_paciente': 11,
-        'cd_medico': 11,
-        'cd_medicamento': 11
-    },
-    {
-        'cd_alerta': 12,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '08:00',
-        'dt_inicio': '2026-11-06',
-        'dt_fim': '2026-11-16',
-        'cd_paciente': 12,
-        'cd_medico': 12,
-        'cd_medicamento': 12
-    },
-    {
-        'cd_alerta': 13,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '20:00',
-        'dt_inicio': '2026-11-07',
-        'dt_fim': '2026-11-21',
-        'cd_paciente': 13,
-        'cd_medico': 13,
-        'cd_medicamento': 13
-    },
-    {
-        'cd_alerta': 14,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '09:00',
-        'dt_inicio': '2026-11-07',
-        'dt_fim': '2026-11-28',
-        'cd_paciente': 14,
-        'cd_medico': 14,
-        'cd_medicamento': 14
-    },
-    {
-        'cd_alerta': 15,
-        'ds_dosagem': 'Conforme prescrição',
-        'ds_horario': '08:00',
-        'dt_inicio': '2026-11-08',
-        'dt_fim': '2026-11-22',
-        'cd_paciente': 15,
-        'cd_medico': 15,
-        'cd_medicamento': 15
-    },
+// [paciente, médico, medicamento, dosagem, horário, início (dias), fim (dias)]
+const lembretesDemonstracao = [
+    [1, 1, 8, '50 mg, 1 comprimido', '08:00', -20, 60],
+    [1, 15, 6, '20 mg, 1 cápsula em jejum', '07:00', -4, 10],
+    [2, 1, 8, '50 mg, 1 comprimido', '08:00 e 20:00', -11, 50],
+    [2, 2, 5, '10 mg, 1 comprimido', '21:00', -27, -13],
+    [3, 15, 12, '10 mg, 1 comprimido', '22:00', -7, 7],
+    [4, 15, 1, '750 mg, se houver dor', 'A cada 8 horas', -10, -5],
+    [5, 5, 3, '600 mg, 1 comprimido após refeição', '08:00 e 20:00', -3, 4],
+    [6, 2, 5, '10 mg, 1 comprimido', '21:00', -8, 22],
+    [7, 9, 10, '50 mcg, 1 comprimido em jejum', '06:30', -2, 88],
+    [8, 1, 9, '25 mg, 1 comprimido', '08:00', -6, 84],
+    [9, 1, 13, '20 mg, 1 comprimido', '22:00', -1, 89],
+    [10, 10, 6, '20 mg, 1 cápsula em jejum', '07:00', -18, -4],
+    [11, 4, 2, '1 g, se houver dor', 'Até 4 vezes ao dia', -1, 6],
+    [12, 12, 11, '2 jatos, se houver falta de ar', 'Conforme necessidade', -15, 45],
+    [13, 13, 15, '2.000 UI, 1 cápsula', '12:00', -14, 76],
+    [14, 14, 14, '50 mg, 1 comprimido', '09:00', -13, 77],
+    [15, 15, 7, '500 mg, 1 comprimido após o jantar', '20:00', -12, 78]
 ]
+
+export const alertas = lembretesDemonstracao.map(([paciente, medico, medicamento, dosagem, horario, inicio, fim], indice) => ({
+    'cd_alerta': indice + 1,
+    'ds_dosagem': dosagem,
+    'ds_horario': horario,
+    'dt_inicio': dataDemonstracao(inicio),
+    'dt_fim': dataDemonstracao(fim),
+    'cd_paciente': paciente,
+    'cd_medico': medico,
+    'cd_medicamento': medicamento
+}))
 
 export const medicamentos = [
     { 'cd_medicamento': 1, 'nm_medicamento': 'Paracetamol' },
@@ -1093,4 +909,66 @@ export const medicamentos = [
     { 'cd_medicamento': 13, 'nm_medicamento': 'Sinvastatina' },
     { 'cd_medicamento': 14, 'nm_medicamento': 'Sertralina' },
     { 'cd_medicamento': 15, 'nm_medicamento': 'Vitamina D' },
+]
+
+export const notificacoes = [
+    {
+        id: 1,
+        titulo: 'Consulta confirmada',
+        mensagem: 'Sua consulta com Dra. Manuela Melilo Gaspar hoje às 09:00 está confirmada.',
+        data: dataDemonstracao(-1, '18:00').replace(' ', 'T'),
+        lida: false,
+        cd_paciente: 1,
+        cd_medico: 1
+    },
+    {
+        id: 2,
+        titulo: 'Novo lembrete de medicação',
+        mensagem: 'Omeprazol 20 mg foi adicionado aos seus lembretes.',
+        data: dataDemonstracao(-4, '16:10').replace(' ', 'T'),
+        lida: true,
+        cd_paciente: 1,
+        cd_medico: 15
+    },
+    {
+        id: 3,
+        titulo: 'Consulta cancelada',
+        mensagem: 'A consulta de Eduardo Mendes Barros com Dra. Beatriz Almeida Torres, hoje às 11:00, foi cancelada.',
+        data: dataDemonstracao(-1, '10:30').replace(' ', 'T'),
+        lida: false,
+        cd_paciente: 13,
+        cd_medico: 15
+    }
+]
+
+// Prontuário clínico de cada paciente (editado pelo médico)
+export const prontuarios = [
+    {
+        'cd_paciente': 1,
+        'ds_alergias': 'Dipirona',
+        'cd_diagnostico': 1,
+        'ds_observacoes': 'Hipertensão em acompanhamento. Pressão controlada com Losartana.',
+        'evolucoes': [
+            { 'dt_registro': dataDemonstracao(-28, '08:25'), 'cd_medico': 1, 'ds_texto': 'PA 150x95 mmHg. Iniciada Losartana 50 mg/dia. Retorno em 4 semanas.' },
+            { 'dt_registro': dataDemonstracao(-4, '15:50'), 'cd_medico': 15, 'ds_texto': 'Queixa de azia após refeições. Prescrito Omeprazol por 14 dias.' }
+        ]
+    },
+    {
+        'cd_paciente': 2,
+        'ds_alergias': '',
+        'cd_diagnostico': 1,
+        'ds_observacoes': 'Hipertensão leve. Orientada dieta com pouco sal.',
+        'evolucoes': [
+            { 'dt_registro': dataDemonstracao(-11, '09:20'), 'cd_medico': 1, 'ds_texto': 'PA 140x90 mmHg. Ajustada dose de Losartana para 2x ao dia.' }
+        ]
+    },
+    {
+        'cd_paciente': 8,
+        'ds_alergias': 'Penicilina',
+        'cd_diagnostico': 1,
+        'ds_observacoes': 'Histórico familiar de doença cardíaca.',
+        'evolucoes': [
+            { 'dt_registro': dataDemonstracao(-6, '08:30'), 'cd_medico': 1, 'ds_texto': 'Eletrocardiograma sem alterações. Iniciado Atenolol 25 mg.' }
+        ]
+    }
 ]

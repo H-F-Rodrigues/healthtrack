@@ -16,6 +16,7 @@
     <input type="radio" name="dashboard" id="alertas">
     <input type="radio" name="dashboard" id="acesso">
     <input type="radio" name="dashboard" id="geral">
+    <input type="radio" name="dashboard" id="paciente">
 
     <main class="login-page">
         <section class="login-card">
@@ -25,27 +26,35 @@
             </div>
 
             <h1>Entrar no sistema</h1>
-            <p class="login-description">Acesse o painel de gestão da clínica.</p>
+            <p class="login-description">Acesse sua conta na clínica.</p>
 
-            <select name="tipoLogin" id="tipo-login">
-                <option value="paciente">Paciente</option>
-                <option value="medico">Médico</option>
-                <option value="recepcionista">Recepcionista</option>
-            </select>
+            <div class="form-group">
+                <label for="tipo-login">Entrar como</label>
+                <select name="tipoLogin" id="tipo-login">
+                    <option value="paciente">Paciente</option>
+                    <option value="medico">Médico</option>
+                    <option value="recepcionista">Recepcionista</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" placeholder="seu@email.com">
+                <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
             </div>
 
             <div class="form-group">
                 <label for="password">Senha</label>
-                <input type="password" id="password" placeholder="Digite sua senha">
+                <input type="password" id="password" placeholder="Digite sua senha" autocomplete="current-password">
             </div>
 
             <p class="login-error" id="login-error" hidden></p>
             <button type="button" class="login-button" id="btn-login">Entrar</button>
-            <a href="#" class="forgot-password">Esqueci minha senha</a>
+            <a href="#" class="forgot-password" id="esqueci-senha">Esqueci minha senha</a>
+            <p class="login-links">
+                Paciente novo? <a href="cadastro.html">Criar conta</a>
+                <span aria-hidden="true">·</span>
+                <a href="index.html">Página inicial</a>
+            </p>
         </section>
     </main>
 
@@ -57,31 +66,26 @@
             </div>
 
             <nav class="menu" aria-label="Navegação principal">
-                <label for="recepcao" class="menu-item"><span class="menu-icon">▣</span>Recepção</label>
-                <label for="agendamento" class="menu-item"><span class="menu-icon">+</span>Agendamento</label>
-                <label for="historico" class="menu-item"><span class="menu-icon">↻</span>Histórico</label>
-                <label for="prontuario" class="menu-item"><span class="menu-icon">□</span>Prontuário</label>
-                <label for="notificacoes" class="menu-item"><span class="menu-icon">!</span>Notificações</label>
-                <label for="alertas" class="menu-item"><span class="menu-icon">!</span>Alertas</label>
-                <label for="acesso" class="menu-item"><span class="menu-icon">●</span>Controle de acesso</label>
-                <label for="geral" class="menu-item"><span class="menu-icon">i</span>Informações Gerais</label>
+                <label for="paciente" class="menu-item" hidden><span class="menu-icon">▣</span><span class="menu-texto">Meu painel</span></label>
+                <label for="recepcao" class="menu-item" hidden><span class="menu-icon">▣</span><span class="menu-texto">Recepção</span></label>
+                <label for="agendamento" class="menu-item" hidden><span class="menu-icon">+</span><span class="menu-texto">Agendamento</span></label>
+                <label for="prontuario" class="menu-item" hidden><span class="menu-icon">□</span><span class="menu-texto">Pacientes e prontuário</span></label>
+                <label for="historico" class="menu-item" hidden><span class="menu-icon">↻</span><span class="menu-texto">Histórico</span></label>
+                <label for="alertas" class="menu-item" hidden><span class="menu-icon">℞</span><span class="menu-texto">Medicações</span></label>
+                <label for="notificacoes" class="menu-item" hidden><span class="menu-icon">!</span><span class="menu-texto">Notificações</span><span class="menu-badge" id="menu-badge-notificacoes" hidden></span></label>
+                <label for="geral" class="menu-item" hidden><span class="menu-icon">i</span><span class="menu-texto">Informações gerais</span></label>
+                <label for="acesso" class="menu-item" hidden><span class="menu-icon">●</span><span class="menu-texto">Controle de acesso</span></label>
             </nav>
 
-            <div class="sidebar-user" id="sidebar-user">
-                <div class="user-photo">DR</div>
-                <div class="user-info">
-                    <strong>Dr. Ricardo Alves</strong>
-                    <span>Administrador</span>
-                </div>
-            </div>
+            <div class="sidebar-user" id="sidebar-user"></div>
+            <button type="button" class="logout-button" id="btn-logout">Sair da conta</button>
         </aside>
 
         <div class="main-content" id="dashboard-screens" aria-live="polite">
-            <p>Carregando dashboards...</p>
+            <p>Carregando...</p>
         </div>
     </section>
 
     <script type="module" src="js/login.js"></script>
-    <script type="module" src="js/dashboard/dashboard.js"></script>
 </body>
 </html>

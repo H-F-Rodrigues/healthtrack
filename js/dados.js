@@ -4,7 +4,7 @@ import * as date from './date.js'
 export const CHAVES = [
   'consultas', 'pacientes', 'medicos', 'recepcionistas',
   'status', 'especialidades', 'diagnosticos', 'enderecos',
-  'cidades', 'uf', 'alertas', 'medicamentos',
+  'cidades', 'uf', 'alertas', 'medicamentos', 'notificacoes', 'prontuarios',
 ]
 
 export async function carregarDados() {
@@ -20,6 +20,8 @@ export async function carregarDados() {
     const uf = await carregarUf()
     const alertas = await carregarAlertas()
     const medicamentos = await carregarMedicamentos()
+    const notificacoes = carregarNotificacoes()
+    const prontuarios = carregarLista('prontuarios')
 
     return {
        'consultas': consultas,
@@ -34,6 +36,8 @@ export async function carregarDados() {
        'uf': uf,
        'alertas': alertas,
        'medicamentos': medicamentos,
+       'notificacoes': notificacoes,
+       'prontuarios': prontuarios,
     }
 }
 
@@ -53,7 +57,7 @@ async function carregarConsultas() {
         dados = dadosMockados
     } else {
         try {
-            let parsed = JSON.parse(dados)
+            const parsed = JSON.parse(raw)
             dados = Array.isArray(parsed) ? parsed : dadosMockados
         } catch (erro) {
             console.log('Erro ao ler do localStorage: ', erro)
@@ -67,7 +71,7 @@ async function carregarConsultas() {
         d.recepcionista = recepcionistas.find(r => r.cd_recepcionista == d.cd_recepcionista)
         d.status = status.find(s => s.cd_status == d.cd_status)
         d.diagnostico = diagnosticos.find(di => di.cd_diagnostico == d.cd_diagnostico)
-        d.horario = d.dt_agendamento.split(' ')[1].substring(0, 5);
+        d.horario = d.dt_agendamento?.split(' ')[1]?.substring(0, 5) || ''
     })
 
     return dados
@@ -273,7 +277,7 @@ async function carregarCidades() {
 
 async function carregarUf() {
     const dadosMockados = mock.uf
-    const raw = localStorage.getItem("medicos")   
+    const raw = localStorage.getItem("uf")
 
     let dados
     if (!raw) {
@@ -320,7 +324,7 @@ async function carregarAlertas() {
 
 async function carregarMedicamentos() {
     const dadosMockados = mock.medicamentos
-    const raw = localStorage.getItem("medicos")   
+    const raw = localStorage.getItem("medicamentos")
 
     let dados
     if (!raw) {
@@ -336,6 +340,44 @@ async function carregarMedicamentos() {
     }
 
     return dados
+}
+
+// Lê uma tabela simples do localStorage; se não houver nada salvo, usa o mock.
+function carregarLista(chave) {
+    const raw = localStorage.getItem(chave)
+    if (!raw) return structuredClone(mock[chave] ?? [])
+
+    try {
+        const dados = JSON.parse(raw)
+        return Array.isArray(dados) ? dados : structuredClone(mock[chave] ?? [])
+    } catch (erro) {
+        console.error(`Erro ao ler ${chave} do localStorage:`, erro)
+        return structuredClone(mock[chave] ?? [])
+    }
+}
+
+function carregarNotificacoes() {
+    const raw = localStorage.getItem('notificacoes')
+    if (!raw) return mock.notificacoes
+
+    try {
+        const dados = JSON.parse(raw)
+        return Array.isArray(dados) ? dados : mock.notificacoes
+    } catch (erro) {
+        console.error('Erro ao ler notificações do localStorage:', erro)
+        return mock.notificacoes
+    }
+}
+
+export function salvarDados(tipoDado, dados) {
+    if (!CHAVES.includes(tipoDado)) {
+        throw new Error(`Tipo de dado desconhecido: "${tipoDado}"`)
+    }
+    if (!Array.isArray(dados)) {
+        throw new Error(`Os dados de "${tipoDado}" devem ser uma lista.`)
+    }
+
+    localStorage.setItem(tipoDado, JSON.stringify(dados))
 }
 
 // Usar como criarDados(paciente, 'pacientes') ou criarDados(consulta, 'consultas')
@@ -376,17 +418,22 @@ export function exportarDadosJSON() {
 
   for (const chave of CHAVES) {
     const raw = localStorage.getItem(chave)
-    if (!raw) continue
+    if (!raw) {
+      backup[chave] = structuredClone(mock[chave] ?? [])
+      continue
+    }
+
     try {
       backup[chave] = JSON.parse(raw)
     } catch {
-      backup[chave] = raw   // se não for JSON, mantém como string
+      alert(`Não foi possível exportar "${chave}": os dados salvos não são JSON válido.`)
+      return
     }
-  }
 
-  if (Object.keys(backup).length === 0) {
-    alert('Não há dados para exportar.')
-    return
+    if (!Array.isArray(backup[chave])) {
+      alert(`Não foi possível exportar "${chave}": os dados salvos não são uma lista.`)
+      return
+    }
   }
 
   const blob = new Blob([JSON.stringify(backup, null, 2)], {
